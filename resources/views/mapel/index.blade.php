@@ -53,14 +53,7 @@
 @push('after-script')
     <script>
        $(document).ready(function(){
-         $('#example').DataTable();
-
-         $('#mymodal').on('show.bs.modal', function(e){
-               var button = $(e.relatedTarget);
-               var modal = $(this);
-               modal.find('.modal-body').load(button.data('remote'));
-               modal.find('.modal-title').html(button.data('title'));
-         });
+         $('#example').DataTable();\
 
        });
     </script>

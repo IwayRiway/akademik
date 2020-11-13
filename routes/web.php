@@ -28,3 +28,6 @@ Route::get('mapel/destroy/{id}', 'MapelController@destroy')->name('mapel.destroy
 
 Route::resource('guru', 'GuruController');
 Route::get('guru/destroy/{id}', 'GuruController@destroy')->name('guru.destroy');
+
+Route::resource('jam-pelajaran', 'JamPelajaranController');
+Route::get('jam-pelajaran/destroy/{id}', 'JamPelajaranController@destroy')->name('jam-pelajaran.destroy');
