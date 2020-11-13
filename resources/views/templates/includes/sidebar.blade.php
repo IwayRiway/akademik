@@ -16,5 +16,6 @@
          </ul>
        </li>
        <li><a class="nav-link" href="{{route('siswa.index')}}"><i class="fas fa-fire"></i><span>Data Siswa</span></a></li> 
+       <li><a class="nav-link" href="{{route('mapel.index')}}"><i class="fas fa-fire"></i><span>Data Mata Pelajaran</span></a></li> 
    </aside>
  </div>
