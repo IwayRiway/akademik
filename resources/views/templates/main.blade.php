@@ -17,6 +17,11 @@
       @include('templates/includes/header')
       @include('templates/includes/sidebar')
       
+      <div class="info" data-flashdata="{{session('info')}}"></div>
+      <div class="gagal" data-flashdata="{{session('gagal')}}"></div>
+      <div class="sukses" data-flashdata="{{session('sukses')}}"></div>
+      <div class="warning" data-flashdata="{{session('warning')}}"></div>
+      
       <!-- Main Content -->
       <div class="main-content">
         @yield('content')

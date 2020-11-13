@@ -24,3 +24,4 @@ Route::get('siswa', 'SiswaController@index')->name('siswa.index');
 Route::get('siswa/show/{id}', 'SiswaController@show')->name('siswa.show');
 
 Route::resource('mapel', 'MapelController');
+Route::get('mapel/destroy/{id}', 'MapelController@destroy')->name('mapel.destroy');

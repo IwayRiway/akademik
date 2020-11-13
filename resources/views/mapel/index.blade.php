@@ -31,7 +31,8 @@
                                  <td>{{$loop->iteration}}</td>
                                  <td>{{$db->nama}}</td>
                                  <td>
-                                     <a href="#mymodal" data-remote="{{route('siswa.show', $db->id)}}" data-toggle="modal" data-target="#mymodal" data-title="Detail Siswa : {{$db->nama}}" class="btn btn-icon btn-sm btn-info mr-1" title="Detail" style="min-width:30px"><i class="fas fa-info"></i></a>
+                                     <a href="{{route('mapel.edit', $db->id)}}" class="btn btn-icon btn-sm btn-success mr-1" title="Edit" style="min-width:30px"><i class="fas fa-edit"></i></a>
+                                     <a href="{{route('mapel.destroy', $db->id)}}" class="btn btn-icon btn-sm btn-danger mr-1 tombol-hapus" title="Delete" style="min-width:30px"><i class="fas fa-trash"></i></a>
                                  </td>
                              </tr>
                           @endforeach

@@ -41,11 +41,11 @@ class MapelController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'nama' => ['required', 'unique:mapels', 'max:20']
+            'nama' => ['required', 'unique:mapels,nama,NULL,id,deleted_at, NULL', 'max:20']
         ]);
 
         Mapel::create($request->all());
-        return redirect()->route('mapel.index');
+        return redirect()->route('mapel.index')->with('sukses', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -67,7 +67,10 @@ class MapelController extends Controller
      */
     public function edit($id)
     {
-        //
+        $judul = "Data Mata Pelajaran";
+        $mapel = Mapel::findOrFail($id);
+
+        return view('mapel.edit', compact('judul','mapel'));
     }
 
     /**
@@ -79,7 +82,12 @@ class MapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'nama' => ['required', 'unique:mapels', 'max:20']
+        ]);
+
+        Mapel::where('id',$id)->update($request->except('_token', '_method'));
+        return redirect()->route('mapel.index')->with('info', 'Data Berhasil Diubah');
     }
 
     /**
@@ -90,6 +98,7 @@ class MapelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Mapel::findOrFail($id)->delete();
+        return redirect()->route('mapel.index')->with('warning', 'Data Berhasil Terhapus');
     }
 }
