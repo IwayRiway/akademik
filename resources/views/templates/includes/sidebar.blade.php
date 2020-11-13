@@ -14,6 +14,7 @@
            <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
            <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
          </ul>
-       </li> 
+       </li>
+       <li><a class="nav-link" href="{{route('siswa.index')}}"><i class="fas fa-fire"></i><span>Data Siswa</span></a></li> 
    </aside>
  </div>

@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::resource('test', 'TestController');
 Route::resource('test', 'TestController');
-// Route::get('/coba', [TestController::class, 'index']);
+
+Route::get('siswa', 'SiswaController@index')->name('siswa.index');
+Route::get('siswa/show/{id}', 'SiswaController@show')->name('siswa.show');
