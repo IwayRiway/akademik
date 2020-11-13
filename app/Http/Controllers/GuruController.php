@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
 {
@@ -41,13 +42,20 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'nip' => ['required', 'max:15'],
+            'nip' => ['required', 'max:15', 'unique:gurus'],
             'nama' => ['required', 'max:50'],
             'tempat' => ['required', 'max:50'],
             'tanggal_lahir' => ['required'],
             'jenis_kelamin' => ['required'],
             'alamat' => ['required'],
         ]);
+
+        $data = $request->all();
+        if ($request->file('poto')) {
+            $data['poto'] = $request->file('poto')->store('images/guru');
+        }
+        Guru::create($data);
+        return redirect()->route('guru.index')->with('sukses', 'Data Guru Berhasil Ditambahkan');
     }
 
     /**
@@ -58,7 +66,9 @@ class GuruController extends Controller
      */
     public function show($id)
     {
-        //
+        $guru = Guru::findOrFail($id);
+
+        return view('guru.show', compact('guru'));
     }
 
     /**
@@ -69,7 +79,10 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        //
+        $judul = "Ubah Data Guru";
+        $guru = Guru::findOrFail($id);
+
+        return view('guru.edit', compact('judul', 'guru'));
     }
 
     /**
@@ -81,7 +94,24 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'nip' => ['required', 'max:15', "unique:gurus,nip,$id,id"],
+            'nama' => ['required', 'max:50'],
+            'tempat' => ['required', 'max:50'],
+            'tanggal_lahir' => ['required'],
+            'jenis_kelamin' => ['required'],
+            'alamat' => ['required'],
+        ]);
+
+        $data = $request->except('_token','_method');
+        if ($request->file('poto')) {
+            $data['poto'] = $request->file('poto')->store('images/guru');
+            $guru = Guru::findOrFail($id);
+            Storage::disk('public')->delete($guru->poto);
+        }
+
+        Guru::where('id', $id)->update($data);
+        return redirect()->route('guru.index')->with('info', 'Data Berhasil Diubah');
     }
 
     /**
@@ -92,6 +122,11 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $guru = Guru::findOrFail($id);
+        if($guru->poto!=null)
+            Storage::disk('public')->delete($guru->poto);
+        
+        $guru->delete();
+        return redirect()->route('guru.index')->with('warning', 'Data Berhasil Terhapus');
     }
 }

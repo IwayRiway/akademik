@@ -35,7 +35,7 @@
                                      <td>{{$db->nip}}</td>
                                      <td>{{$db->nama}}</td>
                                      <td>{{$db->jenis_kelamin==1?'Laki-Laki':'Perempuan'}}</td>
-                                     <td>{{$db->tempat}}, {{date('d F Y', strtotime($db->tangal_lahir))}}</td>
+                                     <td>{{$db->tempat}}, {{date('d F Y', strtotime($db->tanggal_lahir))}}</td>
                                      <td>
                                          <a href="#mymodal" data-remote="{{route('guru.show', $db->id)}}" data-toggle="modal" data-target="#mymodal" data-title="Detail Guru : {{$db->nama}}" class="btn btn-icon btn-sm btn-info mr-1" title="Detail" style="min-width:30px"><i class="fas fa-info"></i></a>
                                          <a href="{{route('guru.edit', $db->id)}}" class="btn btn-icon btn-sm btn-success mr-1" title="Edit" style="min-width:30px"><i class="fas fa-edit"></i></a>

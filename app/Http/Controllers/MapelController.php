@@ -83,7 +83,7 @@ class MapelController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama' => ['required', 'unique:mapels', 'max:20']
+            'nama' => ['required', "unique:mapels,nama,$id,id", 'max:20']
         ]);
 
         Mapel::where('id',$id)->update($request->except('_token', '_method'));
