@@ -40,7 +40,13 @@ class JamPelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'jam_awal' => ['required','max:5', 'unique:jam_pelajarans,jam_awal,NULL,id,deleted_at,NULL'],
+            'jam_akhir' => ['required', 'max:5']
+        ]);
+
+        JamPelajaran::create($request->all());
+        return redirect()->route('jam-pelajaran.index')->with('sukses', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -62,7 +68,10 @@ class JamPelajaranController extends Controller
      */
     public function edit($id)
     {
-        //
+        $judul = "Master Data Jam Pelajaran";
+        $jam = JamPelajaran::findOrFail($id);
+
+        return view('jam-pelajaran.edit', compact('judul','jam'));
     }
 
     /**
@@ -74,7 +83,13 @@ class JamPelajaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'jam_awal' => ['required','max:5', "unique:jam_pelajarans,jam_awal,$id,id,deleted_at,NULL"],
+            'jam_akhir' => ['required', 'max:5']
+        ]);
+
+        JamPelajaran::where('id', $id)->update($request->except('_token','_method'));
+        return redirect()->route('jam-pelajaran.index')->with('info', 'Data Berhasil Diubah');
     }
 
     /**
@@ -85,6 +100,7 @@ class JamPelajaranController extends Controller
      */
     public function destroy($id)
     {
-        //
+        JamPelajaran::findOrFail($id)->delete();
+        return redirect()->route('jam-pelajaran.index')->with('warning', 'Data Berhasil Terhapus');
     }
 }

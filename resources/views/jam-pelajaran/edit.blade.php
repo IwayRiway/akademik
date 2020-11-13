@@ -14,20 +14,21 @@
       <div class="row">
          <div class="col-sm-12">
              <div class="card card-primary">
-               <form action="{{route('jam-pelajaran.store')}}" method="post">
+               <form action="{{route('jam-pelajaran.update', $jam->id)}}" method="post">
                  <div class="card-body">
 
                      @csrf
+                     @method('PUT')
                      <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label text-right">Jam Pelajaran <code>*</code> : </label>
                         <div class="col-sm-6">
                            <div class="row">
                               <div class="col-sm-6">
-                                 <input type="text" class="form-control @error('jam_awal') is-invalid @enderror" id="jam_awal" placeholder="--:--" name="jam_awal" value="{{old('jam_awal')}}" >
+                                 <input type="text" class="form-control @error('jam_awal') is-invalid @enderror" id="jam_awal" placeholder="--:--" name="jam_awal" value="{{$jam->jam_awal}}" >
                                   @error('jam_awal') <div class="text-danger mt-1">{{$errors->first('jam_awal')}}</div> @enderror
                               </div>
                               <div class="col-sm-6">
-                                 <input type="text" class="form-control @error('jam_akhir') is-invalid @enderror" id="jam_akhir" placeholder="--:--" name="jam_akhir" value="{{old('jam_akhir')}}" >
+                                 <input type="text" class="form-control @error('jam_akhir') is-invalid @enderror" id="jam_akhir" placeholder="--:--" name="jam_akhir" value="{{$jam->jam_akhir}}" >
                                  @error('jam_akhir') <div class="text-danger mt-1">{{$errors->first('jam_akhir')}}</div> @enderror
                               </div>
                            </div>
@@ -37,7 +38,7 @@
                  </div>
 
                  <div class="card-footer text-center">
-                     <button class="btn btn-primary mr-1" type="submit">Submit</button>
+                     <button class="btn btn-primary mr-1" type="submit">Save</button>
                      <a href="{{route('jam-pelajaran.index')}}" class="btn btn-secondary">Cancel</a>
                   </div>
                </form>
