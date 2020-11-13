@@ -4,6 +4,9 @@
 <section class="section">
    <div class="section-header">
      <h1>{{$judul}}</h1>
+     <div class="section-header-button">
+        <a href="{{route('mapel.create')}}" class="btn btn-primary">Add New</a>
+    </div>
    </div>
 
    <div class="section-body">
