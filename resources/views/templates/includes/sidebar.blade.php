@@ -19,5 +19,6 @@
        <li><a class="nav-link" href="{{route('mapel.index')}}"><i class="fas fa-fire"></i><span>Data Mata Pelajaran</span></a></li> 
        <li><a class="nav-link" href="{{route('guru.index')}}"><i class="fas fa-fire"></i><span>Data Guru</span></a></li> 
        <li><a class="nav-link" href="{{route('jam-pelajaran.index')}}"><i class="fas fa-fire"></i><span>Master Data Jam</span></a></li> 
+       <li><a class="nav-link" href="{{route('jadwal-pelajaran.index')}}"><i class="fas fa-fire"></i><span>Jadwal Pelajaran</span></a></li> 
    </aside>
  </div>

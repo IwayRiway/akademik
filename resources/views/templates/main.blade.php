@@ -8,6 +8,11 @@
 
   @include('templates/includes/style')
   @stack('style')
+  <style>
+    .hilang{
+      display: none !important;
+    }
+  </style>
 <!-- /END GA --></head>
 
 <body>
