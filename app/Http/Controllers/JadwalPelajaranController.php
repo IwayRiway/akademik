@@ -31,12 +31,13 @@ class JadwalPelajaranController extends Controller
     public function create()
     {
         $judul = "Tambah Jadwal Pelajaran";
+        $jadwal = Jadwal::all();
         $jam = JamPelajaran::all();
         $mapel = Mapel::all();
         $guru = Guru::all();
         
 
-        return view('jadwal-pelajaran.create', compact('judul', 'jam', 'mapel', 'guru'));
+        return view('jadwal-pelajaran.create', compact('judul', 'jadwal', 'jam', 'mapel', 'guru'));
     }
 
     /**
@@ -47,7 +48,26 @@ class JadwalPelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $jam = JamPelajaran::all();
+        $insert = [];
+        $hari = $request->hari;
+        $jadwal_id = $request->kelas;
+
+        foreach ($jam as $key => $db) {
+            $id = $db->id;
+            $data = [
+                'jam_pelajaran_id' => $id,
+                'jadwal_id' => $jadwal_id,
+                'hari' => $hari,
+                'mapel_id' =>$request["mapel_id_$id"],
+                'guru_id' =>$request["guru_id_$id"]
+            ];
+
+            array_push($insert, $data);
+        }
+
+        JadwalGuru::insert($insert);
+        return redirect()->route('jadwal-pelajaran.index')->with('sukses', 'Jadwal Berhasil Disimpan');
     }
 
     /**
@@ -97,11 +117,10 @@ class JadwalPelajaranController extends Controller
 
     public function jadwal(Request $request)
     {
-        $jadwal = Jadwal::firstWhere($request->all('_token'));
+        $jadwal = JadwalGuru::firstWhere($request->except('_token'));
         if($jadwal){
             $data = 0;
         } else {
-            Jadwal::create($request->all('_token'));
             $data = 1;
         }
         echo json_encode($data);

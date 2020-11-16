@@ -15,47 +15,9 @@
         <div class="col-sm-12">
             <div class="card card-primary">
 
-                <div class="card-body" id="jadwal">
-
-                  <div class="form-group row">
-                    <label for="kelas" class="col-sm-3 col-form-label text-right">Pilih Kelas <code>*</code> : </label>
-                    <div class="col-sm-6">
-                       <select name="kelas" id="kelas" class="form-control">
-                         <option value="X">X</option>
-                         <option value="XI">XI</option>
-                         <option value="XII">XII</option>
-                       </select>
-                    </div>
-                 </div>
-
-                  <div class="form-group row">
-                    <label for="jurusan" class="col-sm-3 col-form-label text-right">Pilih Jurusan <code>*</code> : </label>
-                    <div class="col-sm-6">
-                       <select name="jurusan" id="jurusan" class="form-control">
-                         <option value="IPA">IPA</option>
-                         <option value="IPS">IPS</option>
-                       </select>
-                    </div>
-                 </div>
-
-                  <div class="form-group row">
-                    <label for="postfix" class="col-sm-3 col-form-label text-right">Postfix <code>*</code> : </label>
-                    <div class="col-sm-6">
-                      <input type="text" name="postfix" id="postfix" value="" class="form-control">
-                    </div>
-                 </div>
-
-                 <hr>
-                 <div class="row">
-                   <div class="col-sm-12 text-center">
-                     <button class="btn btn-primary" id="next">Next</button>
-                     <a class="btn btn-secondary" href="{{route('jadwal-pelajaran.index')}}">Cancel</a>
-                   </div>
-                 </div>
-
-                </div>
-
-                <div class="card-body hilang" id="jadwal-guru">
+                <div class="card-body " id="jadwal-guru">
+                  <form action="{{route('jadwal-pelajaran.store')}}" method="post">
+                    @csrf
                     <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
@@ -94,9 +56,22 @@
                     </table>
                     <hr style="border: 1px solid black">
                     <div class="form-group row">
+                      <label for="kelas" class="col-sm-3 col-form-label text-right">Pilih Kelas <code>*</code> : </label>
+                      <div class="col-sm-6">
+                         {{-- <select name="kelas" id="kelas" class="form-control kelas" onchange="name(this)"> --}}
+                         <select name="kelas" id="kelas" class="form-control kelas">
+                           <option></option>
+                           @foreach ($jadwal as $db)
+                            <option value="{{$db->id}}">{{$db->kelas}}-{{$db->jurusan}}-{{$db->postfix}}</option>
+                           @endforeach
+                         </select>
+                      </div>
+                   </div>
+
+                    <div class="form-group row">
                       <label for="hari" class="col-sm-3 col-form-label text-right">Pilih Hari <code>*</code> : </label>
                       <div class="col-sm-6">
-                         <select name="hari" id="hari" class="form-control select2">
+                         <select name="hari" id="hari" class="form-control select2" onchange="hari(this.value)">
                            <option></option>
                            <option value="1">Senin</option>
                            <option value="2">Selasa</option>
@@ -113,6 +88,7 @@
                       <a class="btn btn-secondary" href="{{route('jadwal-pelajaran.index')}}">Cancel</a>
                      </div>
                    </div>
+                  </form>
                 </div>
 
             </div>
@@ -127,6 +103,25 @@
 @push('after-script')
 <script src="{{asset('assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
 <script>
+  // function kelas(val) {
+    // var hari = $('#hari').val();
+    // if(val!="" && hari!=""){
+    //   cekJadwal(val,hari);
+    // } else {
+    //   $("#submit").addClass('hilang');
+    // }
+  // }
+
+  // function hari(val) {
+  //   var kelas = $('#kelas').val();
+  //   if(val!="" && kelas!=""){
+  //     cekJadwal(kelas,val);
+  //   } else {
+  //     $("#submit").addClass('hilang');
+  //     myalert("Anda Harus Memilih Hari dan Kelas");
+  //   }
+  // }
+
   $(document).ready(function(){
     $(".mapel_id").select2({
         placeholder: "Pilih Mata Pelajaran",
@@ -143,29 +138,29 @@
         allowClear: true
     });
 
-    $("#next").click(function() {
-      var kelas = $("#kelas").val();
-      var jurusan = $("#jurusan").val();
-      var postfix = $("#postfix").val();
+    $("#kelas").select2({
+        placeholder: "Pilih Kelas",
+        allowClear: true
+    });
 
-      if(postfix==""){
-        myalert("Postfix Kelas Harus Diisi")
-      }
+    $('#kelas').on('change', function() {
+        var val = this.value;
+        var hari = $('#hari').val();
+        if(val!="" && hari!=""){
+          cekJadwal(val,hari);
+        } else {
+          $("#submit").addClass('hilang');
+        }
+    });
 
-      $.ajax({
-          url : `{{route('jadwal-pelajaran.jadwal')}}`,
-          type : "POST",
-          dataType : "json",
-          data    : {_token:"{{csrf_token()}}", kelas:kelas, jurusan:jurusan, postfix:postfix},
-          success : function(data) {
-            if(data==0){
-
-            } else {
-              myalert("Kelas "+kelas+" "+jurusan+" dengan Postfix "+postfix+" sudah tersedia")
-            }
-          }
-      });
-
+    $('#hari').on('change', function() {
+        var val = this.value;
+        var kelas = $('#kelas').val();
+        if(val!="" && kelas!=""){
+          cekJadwal(kelas,val);
+        } else {
+          $("#submit").addClass('hilang');
+        }
     });
 
     function myalert(params) {
@@ -176,6 +171,23 @@
         text: params,
         showConfirmButton: true
       })
+    }
+
+    function cekJadwal(kelas,hari) {
+      $.ajax({
+          url : `{{route('jadwal-pelajaran.jadwal')}}`,
+          type : "POST",
+          dataType : "json",
+          data    : {_token:"{{csrf_token()}}", jadwal_id:kelas, hari:hari},
+          success : function(data) {
+            if(data==0){
+              $("#submit").addClass('hilang');
+              myalert("Jadwal sudah tersedia");
+            } else {
+              $("#submit").removeClass('hilang');
+            }
+          }
+      });
     }
 
   });
