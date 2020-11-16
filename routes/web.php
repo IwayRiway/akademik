@@ -32,6 +32,9 @@ Route::get('guru/destroy/{id}', 'GuruController@destroy')->name('guru.destroy');
 Route::resource('jam-pelajaran', 'JamPelajaranController');
 Route::get('jam-pelajaran/destroy/{id}', 'JamPelajaranController@destroy')->name('jam-pelajaran.destroy');
 
+Route::resource('jadwal', 'JadwalController');
+Route::get('jadwal/destroy/{id}', 'JadwalController@destroy')->name('jadwal.destroy');
+
 Route::resource('jadwal-pelajaran', 'JadwalPelajaranController');
 Route::get('jadwal-pelajaran/destroy/{id}', 'JadwalPelajaranController@destroy')->name('jadwal-pelajaran.destroy');
 Route::post('jadwal-pelajaran/jadwal', 'JadwalPelajaranController@jadwal')->name('jadwal-pelajaran.jadwal');
