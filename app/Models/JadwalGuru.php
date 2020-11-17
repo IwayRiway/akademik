@@ -9,7 +9,7 @@ class JadwalGuru extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mapel_id', 'guru_id', 'jadwal_id', 'hari'];
+    protected $fillable = ['mapel_id', 'guru_id', 'jadwal_id', 'hari', 'jam_pelajaran_id'];
     protected $guarded = [];
 
     public function mapel()
@@ -20,5 +20,10 @@ class JadwalGuru extends Model
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'guru_id', 'id');
+    }
+
+    public function jam()
+    {
+        return $this->belongsTo(JamPelajaran::class, 'jam_pelajaran_id', 'id');
     }
 }

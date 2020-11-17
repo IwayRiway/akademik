@@ -1,5 +1,7 @@
 @extends('templates/main')
 @push('style')
+<link rel="stylesheet" href="{{asset('assets/modules/select2/dist/css/select2.min.css')}}">
+
     <style>
       td a {
           color: black;
@@ -110,11 +112,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body ">
+      <div class="modal-body">
          <span class="text-center">
             <i class="fa fa-spinner fa-spin"></i>
          </span>
       </div>
+      <input type="hidden" name="td_id" id="td_id" class="td_id">
+      <input type="hidden" name="jadwal_id" id="jadwal_id" class="td_id">
     </div>
   </div>
 </div>
@@ -123,8 +127,14 @@
 @endsection('content')
 
  @push('after-script')
+ <script src="{{asset('assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
+
      <script>
        function show(id) {
+        $('.kelas').removeClass('active');
+        $("#"+id).addClass('active');
+
+        var jadwal_id = id;
         var url = `{{url('jadwal-pelajaran')}}`+'/'+id;
         $.ajax({
           url : url,
@@ -133,12 +143,6 @@
           success : function(data) {
             $('#show').empty();
             var loop = 0;
-
-            var data_senin = data.senin.length;
-            var data_selasa = data.selasa.length;
-            var data_rabu = data.rabu.length;
-            var data_kamis = data.kamis.length;
-            var data_jumat = data.jumat.length;
             var data_jam = data.jam.length;
 
             var html = `<table class="table table-bordered table-hover">
@@ -157,9 +161,13 @@
 
                       for (let i = 0; i < data_jam; i++) {
                       loop++;
-                      
-                      if(data_senin<=0){
-                        var id_senin = "01"+data.jam[i].id;
+                      var id_senin = "01"+data.jam[i].id;
+                      var id_selasa = "02"+data.jam[i].id;
+                      var id_rabu = "03"+data.jam[i].id;
+                      var id_kamis = "04"+data.jam[i].id;
+                      var id_jumat = "05"+data.jam[i].id;
+
+                      if(data.jam[i].id in data.senin == false){
                         var mapel_senin = "";
                         var guru_senin = "";
                       } else {
@@ -168,8 +176,7 @@
                         var guru_senin = data.senin[data.jam[i].id].guru??"";
                       }
 
-                      if(data_selasa<=0){
-                        var id_selasa = "02"+data.jam[i].id;
+                      if(data.jam[i].id in data.selasa == false){
                         var mapel_selasa = "";
                         var guru_selasa = "";
                       } else {
@@ -178,8 +185,7 @@
                         var guru_selasa = data.selasa[data.jam[i].id].guru??"";
                       }
 
-                      if(data_rabu<=0){
-                        var id_rabu = "03"+data.jam[i].id;
+                      if(data.jam[i].id in data.rabu == false){
                         var mapel_rabu = "";
                         var guru_rabu = "";
                       } else {
@@ -188,8 +194,7 @@
                         var guru_rabu = data.rabu[data.jam[i].id].guru??"";
                       }
 
-                      if(data_kamis<=0){
-                        var id_kamis = "04"+data.jam[i].id;
+                      if(data.jam[i].id in data.kamis == false){
                         var mapel_kamis = "";
                         var guru_kamis = "";
                       } else {
@@ -198,8 +203,7 @@
                         var guru_kamis = data.kamis[data.jam[i].id].guru??"";
                       }
 
-                      if(data_jumat<=0){
-                        var id_jumat = "05"+data.jam[i].id;
+                      if(data.jam[i].id in data.jumat == false){
                         var mapel_jumat = "";
                         var guru_jumat = "";
                       } else {
@@ -212,36 +216,36 @@
                               <td>`+loop+`</td>
                               <td>`+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`</td>`;
                       
-                      html+=`  <td>
-                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_senin+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`">
+                      html+=`  <td id="`+1+``+data.jam[i].id+`">
+                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_senin+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`" data-jadwal_id="`+jadwal_id+`" data-id="`+1+``+data.jam[i].id+`">
                                   `+mapel_senin+`
                                   <hr style="margin: 0px; border: 1px solid black;">
                                   `+guru_senin+`
                                 </a>
                               </td>
-                              <td>
-                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_selasa+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`">
+                              <td id="`+2+``+data.jam[i].id+`">
+                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_selasa+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Selasa, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`" data-jadwal_id="`+jadwal_id+`" data-id="`+2+``+data.jam[i].id+`">
                                   `+mapel_selasa+`
                                   <hr style="margin: 0px; border: 1px solid black;">
                                   `+guru_selasa+`
                                 </a>
                               </td>
-                              <td>
-                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_rabu+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`">
+                              <td id="`+3+``+data.jam[i].id+`">
+                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_rabu+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Rabu, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`" data-jadwal_id="`+jadwal_id+`" data-id="`+3+``+data.jam[i].id+`">
                                   `+mapel_rabu+`
                                   <hr style="margin: 0px; border: 1px solid black;">
                                   `+guru_rabu+`
                                 </a>
                               </td>
-                              <td>
-                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_kamis+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`">
+                              <td id="`+4+``+data.jam[i].id+`">
+                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_kamis+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Kamis, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`" data-jadwal_id="`+jadwal_id+`" data-id="`+4+``+data.jam[i].id+`">
                                   `+mapel_kamis+`
                                   <hr style="margin: 0px; border: 1px solid black;">
                                   `+guru_kamis+`
                                 </a>
                               </td>
-                              <td>
-                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_jumat+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`">
+                              <td id="`+5+``+data.jam[i].id+`">
+                                <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+id_jumat+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Jumat, `+data.jam[i].jam_awal+` - `+data.jam[i].jam_akhir+`" data-jadwal_id="`+jadwal_id+`" data-id="`+5+``+data.jam[i].id+`">
                                   `+mapel_jumat+`
                                   <hr style="margin: 0px; border: 1px solid black;">
                                   `+guru_jumat+`
@@ -255,6 +259,18 @@
               $("#show").html(html);
           }
       });
-       }
+    }
+
+    $(document).ready(function(){
+      $('#mymodal').on('show.bs.modal', function(e){
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body').load(button.data('remote'));
+            modal.find('.modal-title').html(button.data('title'));
+            modal.find('#td_id').val(button.data('id'));
+            modal.find('#jadwal_id').val(button.data('jadwal_id'));
+      });
+
+    });
      </script>
  @endpush

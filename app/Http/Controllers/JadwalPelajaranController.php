@@ -167,7 +167,11 @@ class JadwalPelajaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        JadwalGuru::where('id', $id)->update($request->except('_token', '_method'));
+        $data = JadwalGuru::with('mapel', 'guru', 'jam')
+                            ->firstWhere('id', $id);
+
+        echo json_encode($data);
     }
 
     /**
@@ -194,6 +198,32 @@ class JadwalPelajaranController extends Controller
 
     public function detail($id)
     {
-        # code...
+        $mapel = Mapel::all();
+        $guru = Guru::all();
+
+        if($id[0]=="0"){
+            return view('jadwal-pelajaran.detail-create', compact('mapel', 'guru'));
+        } else {
+            $detail = JadwalGuru::findOrFail($id);
+            return view('jadwal-pelajaran.detail-edit', compact('mapel', 'guru', 'detail'));
+        }
+    }
+
+    public function store_detail(Request $request)
+    {
+        $id = $request->id;
+        $insert = [
+            'mapel_id' => $request->mapel_id,
+            'guru_id' => $request->guru_id,
+            'jadwal_id' => $request->jadwal_id,
+            'hari' => $id[0],
+            'jam_pelajaran_id' => $id[1]
+        ];
+
+        $jadwal = JadwalGuru::create($insert);
+        $data = JadwalGuru::with('mapel', 'guru', 'jam')
+                            ->firstWhere('id', $jadwal->id);
+        
+        echo json_encode($data);
     }
 }
