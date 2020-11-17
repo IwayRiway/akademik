@@ -182,7 +182,24 @@ class JadwalPelajaranController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jadwal = JadwalGuru::with('mapel', 'guru', 'jam')
+                            ->firstWhere('id', $id);
+        JadwalGuru::destroy($id);
+
+        if($jadwal->hari==1){$hari = 'Senin';}
+        if($jadwal->hari==2){$hari = 'Selasa';}
+        if($jadwal->hari==3){$hari = 'Rabu';}
+        if($jadwal->hari==4){$hari = 'Kamis';}
+        if($jadwal->hari==5){$hari = 'Jumat';}
+
+        $data = [
+            'hari' => $hari,
+            'jam_awal' => $jadwal->jam['jam_awal'],
+            'jam_akhir' => $jadwal->jam['jam_akhir'],
+            'jadwal_id' => $jadwal->jadwal_id
+        ];
+
+        echo json_encode(200);
     }
 
     public function jadwal(Request $request)

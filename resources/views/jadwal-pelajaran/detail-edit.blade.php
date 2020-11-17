@@ -84,23 +84,22 @@
     });
 
     $("#delete").click(function(){
-      var mapel_id = $("#mapel_id").val();
-      var guru_id = $("#guru_id").val();
+      // alert("MASUK");
       var id = $("#td_id").val();
       var update_id = $("#update_id").val();
-      
-      var url = `{{url('jadwal-pelajaran/destroy')}}`+'/'+update_id;
+      var text = "";
+      var url = `{{url('jadwal-pelajaran')}}`+'/'+update_id;
       $.ajax({
           url : url,
-          type : "GET",
+          type : "POST",
           dataType : "json",
-          data    : {},
+          data    : {_token:"{{csrf_token()}}",_method:"DELETE"},
           success : function(data) {
             var html = `
-                        <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+update_id+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam.jam_awal+` - `+data.jam.jam_akhir+`" data-jadwal_id="`+data.jadwal_id+`" data-id="`+data.hari+``+data.jam_pelajaran_id+`">
-                          `+data.mapel.nama+`
+                        <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/0`+id+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : `+data.hari+`, `+data.jam_awal+` - `+data.jam_akhir+`" data-jadwal_id="`+data.jadwal_id+`" data-id="`+id+`">
+                          `+text+`
                           <hr style="margin: 0px; border: 1px solid black;">
-                          `+data.guru.nama+`
+                          `+text+`
                         </a>`;
             $('#'+id).html(html);
             $('#mymodal').modal('hide');

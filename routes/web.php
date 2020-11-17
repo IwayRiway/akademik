@@ -36,7 +36,6 @@ Route::resource('jadwal', 'JadwalController');
 Route::get('jadwal/destroy/{id}', 'JadwalController@destroy')->name('jadwal.destroy');
 
 Route::resource('jadwal-pelajaran', 'JadwalPelajaranController');
-Route::get('jadwal-pelajaran/destroy/{id}', 'JadwalPelajaranController@destroy')->name('jadwal-pelajaran.destroy');
 Route::post('jadwal-pelajaran/jadwal', 'JadwalPelajaranController@jadwal')->name('jadwal-pelajaran.jadwal');
 Route::get('jadwal-pelajaran/detail/{id}', 'JadwalPelajaranController@detail')->name('jadwal-pelajaran.detail');
 Route::post('jadwal-pelajaran/store-detail', 'JadwalPelajaranController@store_detail')->name('jadwal-pelajaran.store-detail');
