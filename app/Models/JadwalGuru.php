@@ -11,4 +11,14 @@ class JadwalGuru extends Model
 
     protected $fillable = ['mapel_id', 'guru_id', 'jadwal_id', 'hari'];
     protected $guarded = [];
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class, 'mapel_id', 'id');
+    }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'guru_id', 'id');
+    }
 }

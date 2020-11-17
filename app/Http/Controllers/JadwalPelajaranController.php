@@ -19,8 +19,9 @@ class JadwalPelajaranController extends Controller
     public function index()
     {
         $judul = "Jadwal Pelajaran";
+        $kelas = Jadwal::all();
 
-        return view('jadwal-pelajaran.index', compact('judul'));
+        return view('jadwal-pelajaran.index', compact('judul', 'kelas'));
     }
 
     /**
@@ -78,7 +79,72 @@ class JadwalPelajaranController extends Controller
      */
     public function show($id)
     {
-        //
+        $jadwal = JadwalGuru::with('mapel', 'guru')
+                            ->where('jadwal_id', $id)
+                            ->orderBy('hari', 'asc')
+                            ->get();
+
+        $data['jam'] = JamPelajaran::all();
+
+        $senin = [];
+        $selasa = [];
+        $rabu = [];
+        $kamis = [];
+        $jumat = [];
+
+        foreach ($jadwal as $key => $db) {
+            if($db->mapel_id == "0"){
+                $mapel = "Istirahat";
+            } else if ($db->mapel_id == "00"){
+                $mapel = "Upacara";
+            } else {
+                $mapel = $db->mapel["nama"]??"";
+            }
+
+            if ($db->hari == 1) {
+                $senin[$db->jam_pelajaran_id] = [
+                    'id' => $db->id,
+                    'mapel' => $mapel,
+                    'guru' => $db->guru["nama"]??""
+                ];
+            }
+            if ($db->hari == 2) {
+                $selasa[$db->jam_pelajaran_id] = [
+                    'id' => $db->id,
+                    'mapel' => $mapel,
+                    'guru' => $db->guru["nama"]??""
+                ];
+            }
+            if ($db->hari == 3) {
+                $rabu[$db->jam_pelajaran_id] = [
+                    'id' => $db->id,
+                    'mapel' => $mapel,
+                    'guru' => $db->guru["nama"]??""
+                ];
+            }
+            if ($db->hari == 4) {
+                $kamis[$db->jam_pelajaran_id] = [
+                    'id' => $db->id,
+                    'mapel' => $mapel,
+                    'guru' => $db->guru["nama"]??""
+                ];
+            }
+            if ($db->hari == 5) {
+                $jumat[$db->jam_pelajaran_id] = [
+                    'id' => $db->id,
+                    'mapel' => $mapel,
+                    'guru' => $db->guru["nama"]??""
+                ];
+            }
+        }
+
+        $data['senin'] = $senin;
+        $data['selasa'] = $selasa;
+        $data['rabu'] = $rabu;
+        $data['kamis'] = $kamis;
+        $data['jumat'] = $jumat;
+        
+        echo json_encode($data);
     }
 
     /**
@@ -124,5 +190,10 @@ class JadwalPelajaranController extends Controller
             $data = 1;
         }
         echo json_encode($data);
+    }
+
+    public function detail($id)
+    {
+        # code...
     }
 }
