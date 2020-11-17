@@ -95,7 +95,8 @@ class JadwalPelajaranController extends Controller
         foreach ($jadwal as $key => $db) {
             if($db->mapel_id == "0"){
                 $mapel = "Istirahat";
-            } else if ($db->mapel_id == "00"){
+            } 
+            if ($db->mapel_id == "00"){
                 $mapel = "Upacara";
             } else {
                 $mapel = $db->mapel["nama"]??"";
@@ -199,7 +200,7 @@ class JadwalPelajaranController extends Controller
             'jadwal_id' => $jadwal->jadwal_id
         ];
 
-        echo json_encode(200);
+        echo json_encode($data);
     }
 
     public function jadwal(Request $request)

@@ -21,5 +21,6 @@
        <li><a class="nav-link" href="{{route('jam-pelajaran.index')}}"><i class="fas fa-fire"></i><span>Master Data Jam</span></a></li> 
        <li><a class="nav-link" href="{{route('jadwal.index')}}"><i class="fas fa-fire"></i><span>Master Kelas</span></a></li> 
        <li><a class="nav-link" href="{{route('jadwal-pelajaran.index')}}"><i class="fas fa-fire"></i><span>Jadwal Pelajaran</span></a></li> 
+       <li><a class="nav-link" href="{{route('jadwal-siswa.index')}}"><i class="fas fa-fire"></i><span>Master Kelas Siswa</span></a></li> 
    </aside>
  </div>

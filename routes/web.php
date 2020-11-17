@@ -39,3 +39,6 @@ Route::resource('jadwal-pelajaran', 'JadwalPelajaranController');
 Route::post('jadwal-pelajaran/jadwal', 'JadwalPelajaranController@jadwal')->name('jadwal-pelajaran.jadwal');
 Route::get('jadwal-pelajaran/detail/{id}', 'JadwalPelajaranController@detail')->name('jadwal-pelajaran.detail');
 Route::post('jadwal-pelajaran/store-detail', 'JadwalPelajaranController@store_detail')->name('jadwal-pelajaran.store-detail');
+
+Route::resource('jadwal-siswa', 'JadwalSiswaController');
+Route::post('jadwal-siswa/siswa', 'JadwalSiswaController@siswa')->name('jadwal-siswa.siswa');
