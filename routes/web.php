@@ -46,3 +46,5 @@ Route::get('jadwal-siswa/destroy/{id}', 'JadwalSiswaController@destroy')->name('
 
 Route::resource('report', 'ReportController');
 Route::get('report/report/{mapel_id}', 'ReportController@report')->name('report.report');
+Route::post('report/kelas', 'ReportController@kelas')->name('report.kelas');
+Route::post('report/siswa', 'ReportController@siswa')->name('report.siswa');

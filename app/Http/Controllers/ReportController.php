@@ -7,6 +7,8 @@ use Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\JadwalGuru;
 use App\Models\Jadwal;
+use App\Models\JadwalSiswa;
+use App\Models\Report;
 
 class ReportController extends Controller
 {
@@ -38,7 +40,14 @@ class ReportController extends Controller
      */
     public function create()
     {
-        //
+        $judul = "Input Nilai Siswa";
+        $mapel = JadwalGuru::with(['mapel' => function($query){
+                                $query->orderBy('nama', 'desc');
+                            }])->where('guru_id', Session::get('user_id'))
+                            ->groupBy('mapel_id')
+                            ->get();
+        // dd(Session::get('user_id'));
+        return view('report.create', compact('judul', 'mapel'));
     }
 
     /**
@@ -49,7 +58,34 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $siswa_id = $request->siswa_id;
+        $guru_id = Session::get('user_id');
+        $mapel_id = $request->mapel;
+        $kelas = $request->kelas;
+        $jenis = $request->jenis;
+        $tanggal_ujian = $request->tanggal_ujian;
+        $date = date('Y-m-d H:i:s');
+
+        $insert = [];
+        for ($i=0; $i < count($siswa_id); $i++) {
+            if($request["nilai_$siswa_id[$i]"]!="" or $request["nilai_$siswa_id[$i]"]!=null){
+                $data = [
+                    'guru_id' => $guru_id,
+                    'siswa_id' => $siswa_id[$i],
+                    'mapel_id' => $mapel_id,
+                    'kelas' => $kelas,
+                    'jenis' => $jenis,
+                    'tanggal_ujian' => $tanggal_ujian,
+                    'nilai' => $request["nilai_$siswa_id[$i]"],
+                    'created_at' => $date,
+                    'updated_at' => $date
+                ];
+                array_push($insert, $data);
+            } 
+        }
+
+        Report::insert($insert);
+        return redirect()->route('report.create')->with('sukses', 'Data Nilai Berhasil Disimpan');
     }
 
     /**
@@ -122,6 +158,38 @@ class ReportController extends Controller
 
         $data['kelas'] = $kelas;
         $data['siswa'] = $siswa;
+
+        echo json_encode($data);
+    }
+
+    public function kelas(Request $request)
+    {
+        $mapel_id = $request->mapel_id;
+        $jadwal_id = JadwalGuru::with('jadwal')
+                                ->where([
+                                    'mapel_id' => $mapel_id,
+                                    'guru_id' => Session::get('user_id')
+                                    ])
+                                ->groupBy('jadwal_id')
+                                ->get();
+        
+        echo json_encode($jadwal_id);
+    }
+
+    public function siswa(Request $request)
+    {
+        $jadwal_id = $request->jadwal_id;
+        $tanggal_ujian = $request->tanggal_ujian;
+
+        $data = JadwalSiswa::with('siswa')
+                            ->where('jadwal_id', $jadwal_id)
+                            ->whereNotExists(function($query) use($tanggal_ujian){
+                                $query->select(DB::raw(1))
+                                        ->from('reports')
+                                        ->where('tanggal_ujian', $tanggal_ujian)
+                                        ->whereRaw('jadwal_siswas.siswa_id = reports.siswa_id');
+                            })
+                            ->get();
 
         echo json_encode($data);
     }

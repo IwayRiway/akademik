@@ -84,15 +84,13 @@ function show(mapel_id) {
         type : "GET",
         dataType : "json",
         success : function(data) {
-          // var table = $('#example').DataTable();;
-          // var j = 1;
-          // table.clear();
           $.each(data.kelas, function (i, key) {
             var kelas_id = data.kelas[i];
             $('#row'+kelas_id).removeClass('hilang');
             var r = 1;
+            var table = $('#table_'+kelas_id).DataTable();
+            table.clear();
             $.each(data.siswa[kelas_id], function (j, key2) {
-                var table = $('#table_'+kelas_id).DataTable();
 
                 var td5 = `<a href="#mymodal" data-remote="{{url('siswa/show')}}/`+data.siswa[kelas_id][j].id+`" data-toggle="modal" data-target="#mymodal" data-title="Detail Siswa : `+data.siswa[kelas_id][j].nama+`" class="btn btn-icon btn-sm btn-success mr-1" title="Detail" style="min-width:30px"><i class="fas fa-info"></i></a>`;
 
