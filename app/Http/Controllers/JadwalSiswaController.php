@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Siswa;
 use App\Models\Jadwal;
 use App\Models\JadwalSiswa;
@@ -68,7 +69,13 @@ class JadwalSiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = JadwalSiswa::with(['siswa' => function($query){
+                                $query->where('aktif', 1);
+                            }])
+                            ->where('jadwal_id', $id)
+                            ->get();
+        
+        echo json_encode($data);
     }
 
     /**
@@ -102,7 +109,8 @@ class JadwalSiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        JadwalSiswa::destroy($id);
+        return redirect()->route('jadwal-siswa.index')->with('warning', 'Data Berhasil Terhapus');
     }
 
     public function siswa(Request $request)
@@ -117,7 +125,11 @@ class JadwalSiswaController extends Controller
                         'kelas' => $kls,
                         'jurusan' => $kelas[1],
                         'aktif' => 1
-                        ])->get();
+                    ])->whereNotExists(function($query){
+                        $query->select(DB::raw(1))
+                                ->from('jadwal_siswas')
+                                ->whereRaw('jadwal_siswas.siswa_id = siswa_sma.id');
+                    })->get();
 
         echo json_encode($data);
     }

@@ -11,4 +11,9 @@ class JadwalSiswa extends Model
 
     protected $fillable = ['siswa_id', 'jadwal_id'];
     protected $guarded = [];
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
+    }
 }

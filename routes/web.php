@@ -42,3 +42,4 @@ Route::post('jadwal-pelajaran/store-detail', 'JadwalPelajaranController@store_de
 
 Route::resource('jadwal-siswa', 'JadwalSiswaController');
 Route::post('jadwal-siswa/siswa', 'JadwalSiswaController@siswa')->name('jadwal-siswa.siswa');
+Route::get('jadwal-siswa/destroy/{id}', 'JadwalSiswaController@destroy')->name('jadwal-siswa.destroy');
