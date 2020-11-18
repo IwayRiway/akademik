@@ -43,6 +43,7 @@
                         <th>Nama</th>
                         <th>Jenis Kelamin</th>
                         <th>Nilai</th>
+                        <th>Tanggal Ujian</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -85,6 +86,7 @@ function show(mapel_id) {
         dataType : "json",
         success : function(data) {
           $.each(data.kelas, function (i, key) {
+            console.log(data);
             var kelas_id = data.kelas[i];
             $('#row'+kelas_id).removeClass('hilang');
             var r = 1;
@@ -92,13 +94,14 @@ function show(mapel_id) {
             table.clear();
             $.each(data.siswa[kelas_id], function (j, key2) {
 
-                var td5 = `<a href="#mymodal" data-remote="{{url('siswa/show')}}/`+data.siswa[kelas_id][j].id+`" data-toggle="modal" data-target="#mymodal" data-title="Detail Siswa : `+data.siswa[kelas_id][j].nama+`" class="btn btn-icon btn-sm btn-success mr-1" title="Detail" style="min-width:30px"><i class="fas fa-info"></i></a>`;
+                var td5 = `<a href="#mymodal" data-remote="{{url('report/show')}}/`+data.siswa[kelas_id][j].id+`" data-toggle="modal" data-target="#mymodal" data-title="Detail Siswa : `+data.siswa[kelas_id][j].nama+`" class="btn btn-icon btn-sm btn-success mr-1" title="Detail" style="min-width:30px"><i class="fas fa-edit"></i></a>`;
 
                 table.row.add([
                     r++,
-                    data.siswa[kelas_id][j].nama,
-                    data.siswa[kelas_id][j].jenis_kelamin==1?'Laki-Laki':'Perempuan',
-                    data.siswa[kelas_id][j].nilai??"-",
+                    data.siswa[kelas_id][j].siswa.nama,
+                    data.siswa[kelas_id][j].siswa.jenis_kelamin==1?'Laki-Laki':'Perempuan',
+                    data.siswa[kelas_id][j].nilai,
+                    data.siswa[kelas_id][j].tanggal_ujian,
                     td5
                 ]);
                 table.draw();

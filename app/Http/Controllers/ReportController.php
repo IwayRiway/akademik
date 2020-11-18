@@ -135,27 +135,48 @@ class ReportController extends Controller
 
     public function report($mapel_id)
     {
-        $siswa_db = DB::table('jadwal_siswas')
-                    ->leftJoin('reports', 'jadwal_siswas.siswa_id', '=', 'reports.siswa_id')
-                    ->leftJoin('siswa_sma', 'jadwal_siswas.siswa_id', '=', 'siswa_sma.id')
-                    ->get();
+        // $siswa_db = DB::table('jadwal_siswas')
+        //             ->leftJoin('reports', 'jadwal_siswas.siswa_id', '=', 'reports.siswa_id')
+        //             ->leftJoin('siswa_sma', 'jadwal_siswas.siswa_id', '=', 'siswa_sma.id')
+        //             ->get();
+        
+        // $kelas = [];
+        // $siswa = [];
+        // foreach ($siswa_db as $key => $db) {
+            // if(in_array("$db->jadwal_id", $kelas)==false){
+            //     array_push($kelas, $db->jadwal_id);
+            // }
+
+            // if($db->mapel_id == null or $db->mapel_id == $mapel_id){
+            //     if(array_key_exists($db->jadwal_id, $siswa)){
+            //         array_push($siswa[$db->jadwal_id], $db);
+            //     } else {
+            //         $siswa[$db->jadwal_id] = [$db];
+            //     }
+            // }
+        // }
+        
+        $report = Report::with('siswa')
+                        ->where([
+                            'mapel_id' => $mapel_id,
+                            'guru_id' => Session::get('user_id')
+                        ])
+                        ->get();
         
         $kelas = [];
         $siswa = [];
-        foreach ($siswa_db as $key => $db) {
-            if(in_array("$db->jadwal_id", $kelas)==false){
-                array_push($kelas, $db->jadwal_id);
+        foreach ($report as $key => $db) {
+            if(in_array("$db->kelas", $kelas)==false){
+                array_push($kelas, $db->kelas);
             }
 
-            if($db->mapel_id == null or $db->mapel_id == $mapel_id){
-                if(array_key_exists($db->jadwal_id, $siswa)){
-                    array_push($siswa[$db->jadwal_id], $db);
-                } else {
-                    $siswa[$db->jadwal_id] = [$db];
-                }
+            if(array_key_exists($db->kelas, $siswa)){
+                array_push($siswa[$db->kelas], $db);
+            } else {
+                $siswa[$db->kelas] = [$db];
             }
         }
-
+        
         $data['kelas'] = $kelas;
         $data['siswa'] = $siswa;
 
