@@ -93,10 +93,10 @@ class JadwalPelajaranController extends Controller
         $jumat = [];
 
         foreach ($jadwal as $key => $db) {
-            if($db->mapel_id == "0"){
+            if($db->mapel_id === "0"){
                 $mapel = "Istirahat";
             } 
-            if ($db->mapel_id == "00"){
+            if ($db->mapel_id === "00"){
                 $mapel = "Upacara";
             } else {
                 $mapel = $db->mapel["nama"]??"";

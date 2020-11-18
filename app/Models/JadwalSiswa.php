@@ -16,4 +16,9 @@ class JadwalSiswa extends Model
     {
         return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
     }
+
+    public function report()
+    {
+        return $this->hasMany(Report::class, 'siswa_id', 'siswa_id');
+    }
 }
