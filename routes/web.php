@@ -53,3 +53,10 @@ Route::resource('role-access', 'RoleAccessController');
 Route::get('role-access/destroy/{id}', 'RoleAccessController@destroy')->name('role-access.destroy');
 
 Route::resource('access', 'AccessController');
+Route::get('access/destroy/{id}', 'AccessController@destroy')->name('access.destroy');
+
+Route::resource('user', 'UserController');
+Route::get('user/destroy/{id}', 'UserController@destroy')->name('user.destroy');
+Route::post('user/siswa', 'UserController@siswa')->name('user.siswa');
+Route::post('user/guru', 'UserController@guru')->name('user.guru');
+Route::post('user/user', 'UserController@user')->name('user.user');

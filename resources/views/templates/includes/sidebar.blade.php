@@ -29,6 +29,7 @@
          <ul class="dropdown-menu">
            <li><a class="nav-link" href="{{route('role-access.index')}}">Role Access</a></li>
            <li><a class="nav-link" href="{{route('access.index')}}">Menu Role Access</a></li>
+           <li><a class="nav-link" href="{{route('user.index')}}">User Manajemen</a></li>
          </ul>
        </li>
    </aside>

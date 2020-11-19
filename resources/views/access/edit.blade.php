@@ -9,34 +9,54 @@
    <div class="section-body">
 
       <div class="row">
-         <div class="col-sm-12">
-             <div class="card card-primary">
-               <form action="{{route('role-access.update', $role->id)}}" method="post" enctype="multipart/form-data">
-                 <div class="card-body">
+        <div class="col-sm-12">
+            <div class="card card-primary">
+                <div class="card-body">
 
-                     @csrf
-                     @method('PUT')
-                     <div class="form-group row">
-                        <label for="nama" class="col-sm-3 col-form-label text-right">Nama <code>*</code> : </label>
-                        <div class="col-sm-6">
-                           <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" placeholder="Nama Role Access" name="nama" value="{{$role->nama}}" >
-                           @error('nama') <div class="text-danger mt-1">{{$errors->first('nama')}}</div> @enderror
-                        </div>
+                  <div class="table-responsive">
+                     <table id="example" class="table table-striped table-bordered" style="width:100%">
+                         <thead>
+                             <tr>
+                                 <th>No</th>
+                                 <th>Role</th>
+                                 <th>Menu Akses</th>
+                                 <th>Aksi</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @foreach ($role as $db)
+                                 <tr>
+                                     <td>{{$loop->iteration}}</td>
+                                     <td>{{$db->role->nama}}</td>
+                                     <td>{{$db->menu->nama}}</td>
+                                     <td>
+                                         <a href="{{route('access.destroy', $db->id)}}" class="btn btn-icon btn-sm btn-danger mr-1 tombol-hapus" title="Delete" style="min-width:30px"><i class="fas fa-trash"></i></a>
+                                     </td>
+                                 </tr>
+                              @endforeach
+                         </tbody>
+                     </table>
                      </div>
 
-                 </div>
-
-                 <div class="card-footer text-center">
-                     <button class="btn btn-primary mr-1" type="submit">Submit</button>
-                     <a href="{{route('role-access.index')}}" class="btn btn-secondary">Cancel</a>
-                  </div>
-               </form>
-
-             </div>
-         </div>
-      </div>
+                </div>
+                <div class="card-footer text-right">
+                  <a href="{{route('access.index')}}" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
    </div>
  </section>
-   
 @endsection('content')
+
+@push('after-script')
+    <script>
+       $(document).ready(function(){
+         $('#example').DataTable();
+         
+       });
+    </script>
+@endpush
+
+ 

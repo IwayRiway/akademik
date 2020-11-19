@@ -17,7 +17,7 @@ class AccessController extends Controller
     public function index()
     {
         $judul = 'Menu Role Access';
-        $role = Access::with('menu', 'role')->get();
+        $role = Access::with('role')->groupBy('role_access_id')->get();
 
         return view('access.index', compact('judul', 'role'));
     }
@@ -68,7 +68,10 @@ class AccessController extends Controller
      */
     public function show($id)
     {
-        //
+        $menu = Access::with('menu')
+                            ->where('role_access_id', $id)
+                            ->get();
+        return view('access.show', compact('menu'));
     }
 
     /**
@@ -79,7 +82,13 @@ class AccessController extends Controller
      */
     public function edit($id)
     {
-        //
+        $judul = 'Edit Menu Role Access';
+        $menu = Menu::where('jenis',1)->get();
+        $role = Access::with('menu', 'role')
+                        ->where('role_access_id', $id)
+                        ->get();
+
+        return view('access.edit', compact('judul', 'menu', 'role'));
     }
 
     /**
@@ -102,6 +111,7 @@ class AccessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Access::destroy($id);
+        return redirect()->back()->with('warning', 'Data Berhasil Terhapus');
     }
 }
