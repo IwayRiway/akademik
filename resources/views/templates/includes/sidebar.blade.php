@@ -22,6 +22,14 @@
        <li><a class="nav-link" href="{{route('jadwal.index')}}"><i class="fas fa-fire"></i><span>Master Kelas</span></a></li> 
        <li><a class="nav-link" href="{{route('jadwal-pelajaran.index')}}"><i class="fas fa-fire"></i><span>Jadwal Pelajaran</span></a></li> 
        <li><a class="nav-link" href="{{route('jadwal-siswa.index')}}"><i class="fas fa-fire"></i><span>Master Kelas Siswa</span></a></li> 
-       <li><a class="nav-link" href="{{route('report.index')}}"><i class="fas fa-fire"></i><span>Report</span></a></li> 
+       <li><a class="nav-link" href="{{route('report.index')}}"><i class="fas fa-fire"></i><span>Report</span></a></li>
+       
+       <li class="dropdown">
+         <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Manajemen Menu</span></a>
+         <ul class="dropdown-menu">
+           <li><a class="nav-link" href="{{route('role-access.index')}}">Role Access</a></li>
+           <li><a class="nav-link" href="index.html">Menu Role Access</a></li>
+         </ul>
+       </li>
    </aside>
  </div>

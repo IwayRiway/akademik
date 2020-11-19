@@ -48,3 +48,6 @@ Route::resource('report', 'ReportController');
 Route::get('report/report/{mapel_id}', 'ReportController@report')->name('report.report');
 Route::post('report/kelas', 'ReportController@kelas')->name('report.kelas');
 Route::post('report/siswa', 'ReportController@siswa')->name('report.siswa');
+
+Route::resource('role-access', 'RoleAccessController');
+Route::get('role-access/destroy/{id}', 'RoleAccessController@destroy')->name('role-access.destroy');
