@@ -16,4 +16,9 @@ class Report extends Model
     {
         return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
     }
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class, 'mapel_id', 'id');
+    }
 }

@@ -43,6 +43,7 @@
                         <th>Nama</th>
                         <th>Jenis Kelamin</th>
                         <th>Nilai</th>
+                        <th>Jenis Ujian</th>
                         <th>Tanggal Ujian</th>
                         <th>Aksi</th>
                       </tr>
@@ -70,7 +71,25 @@
    </div>
  </section>
 
-   
+{{-- MODAL --}}
+<div class="modal fade" tabindex="-1" role="dialog" id="mymodal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <span class="text-center">
+            <i class="fa fa-spinner fa-spin"></i>
+         </span>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- AKHIR MODAL --}}
 @endsection('content')
 
 @push('after-script')
@@ -86,7 +105,6 @@ function show(mapel_id) {
         dataType : "json",
         success : function(data) {
           $.each(data.kelas, function (i, key) {
-            console.log(data);
             var kelas_id = data.kelas[i];
             $('#row'+kelas_id).removeClass('hilang');
             var r = 1;
@@ -94,13 +112,26 @@ function show(mapel_id) {
             table.clear();
             $.each(data.siswa[kelas_id], function (j, key2) {
 
-                var td5 = `<a href="#mymodal" data-remote="{{url('report/show')}}/`+data.siswa[kelas_id][j].id+`" data-toggle="modal" data-target="#mymodal" data-title="Detail Siswa : `+data.siswa[kelas_id][j].nama+`" class="btn btn-icon btn-sm btn-success mr-1" title="Detail" style="min-width:30px"><i class="fas fa-edit"></i></a>`;
+                var td5 = `<a href="#mymodal" data-remote="{{url('report')}}/`+data.siswa[kelas_id][j].id+`" data-toggle="modal" data-target="#mymodal" data-title="Nilai Siswa : `+data.siswa[kelas_id][j].siswa.nama+`" class="btn btn-icon btn-sm btn-success mr-1" title="Detail" style="min-width:30px"><i class="fas fa-edit"></i></a>`;
+
+                if(data.siswa[kelas_id][j].jenis == 1){
+                  var jenis = 'Harian';
+                }
+
+                if(data.siswa[kelas_id][j].jenis == 2){
+                  var jenis = 'Tengah Semester';
+                }
+
+                if(data.siswa[kelas_id][j].jenis == 3){
+                  var jenis = 'Akhir Semester';
+                }
 
                 table.row.add([
                     r++,
                     data.siswa[kelas_id][j].siswa.nama,
                     data.siswa[kelas_id][j].siswa.jenis_kelamin==1?'Laki-Laki':'Perempuan',
                     data.siswa[kelas_id][j].nilai,
+                    jenis,
                     data.siswa[kelas_id][j].tanggal_ujian,
                     td5
                 ]);
@@ -117,6 +148,14 @@ function show(mapel_id) {
 <script>
     $(document).ready(function(){
       $('#example').DataTable();
+
+      $('#mymodal').on('show.bs.modal', function(e){
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body').load(button.data('remote'));
+            modal.find('.modal-title').html(button.data('title'));
+      });
+
     });
 </script>
  @endpush

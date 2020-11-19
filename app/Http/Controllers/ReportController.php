@@ -96,7 +96,9 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        //
+        $report = Report::with('mapel')->findOrFail($id);
+
+        return view('report.show', compact('report'));
     }
 
     /**
@@ -119,7 +121,12 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'nilai' => $request->nilai
+        ];
+
+        Report::where('id', $id)->update($data);
+        return redirect()->route('report.index')->with('info', 'Data Nilai Berhasil Diubah');
     }
 
     /**
