@@ -28,7 +28,7 @@
          <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Manajemen Menu</span></a>
          <ul class="dropdown-menu">
            <li><a class="nav-link" href="{{route('role-access.index')}}">Role Access</a></li>
-           <li><a class="nav-link" href="index.html">Menu Role Access</a></li>
+           <li><a class="nav-link" href="{{route('access.index')}}">Menu Role Access</a></li>
          </ul>
        </li>
    </aside>

@@ -51,3 +51,5 @@ Route::post('report/siswa', 'ReportController@siswa')->name('report.siswa');
 
 Route::resource('role-access', 'RoleAccessController');
 Route::get('role-access/destroy/{id}', 'RoleAccessController@destroy')->name('role-access.destroy');
+
+Route::resource('access', 'AccessController');
