@@ -7,6 +7,10 @@ use App\Models\JamPelajaran;
 
 class JamPelajaranController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     /**
      * Display a listing of the resource.
      *

@@ -7,6 +7,10 @@ use App\Models\Jadwal;
 
 class JadwalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     /**
      * Display a listing of the resource.
      *

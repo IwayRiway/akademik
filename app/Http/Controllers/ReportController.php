@@ -12,6 +12,10 @@ use App\Models\Report;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     // public function __construct()
     // {
     //     echo is_login();

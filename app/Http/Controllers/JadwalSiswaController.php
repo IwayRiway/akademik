@@ -10,6 +10,10 @@ use App\Models\JadwalSiswa;
 
 class JadwalSiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     /**
      * Display a listing of the resource.
      *

@@ -7,6 +7,11 @@ use App\Models\Siswa;
 
 class SiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
+    
     public function index()
     {
         $judul = 'Daftar Siswa';

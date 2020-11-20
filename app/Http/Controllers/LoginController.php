@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Mapel;
+use Session;
+use App\Models\User;
+use Hash;
 
-class MapelController extends Controller
+class LoginController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('roleaccess');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +16,7 @@ class MapelController extends Controller
      */
     public function index()
     {
-        $judul = "Data Mata Pelajaran";
-        $mapel = Mapel::all();
-
-        return view('mapel.index', compact('judul', 'mapel'));
+        return view('auth.index');
     }
 
     /**
@@ -31,9 +26,7 @@ class MapelController extends Controller
      */
     public function create()
     {
-        $judul = "Data Mata Pelajaran";
-
-        return view('mapel.create', compact('judul'));
+        session()->flush();
     }
 
     /**
@@ -44,12 +37,33 @@ class MapelController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'nama' => ['required', 'unique:mapels,nama,NULL,id,deleted_at, NULL', 'max:20']
-        ]);
+        session(['test'=>'123']);
+        $username = $request->username;
+        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+            $user = User::with('role')->where('email', $username)->first();
+        } else {
+            $user = User::with('role')->where('username', $username)->first();
+        }
+        if($user){
+            if (password_verify($request->password, $user->password)){
+                if($user->tipe_user != 1){
+                    session(['user_id' => $user->user_id]);
+                } else {
+                    session(['user_id' => $user->id_user]);
+                }
+                session([
+                    'role_access_id' => $user->hak_akses,
+                    'role' => $user->role->nama,
+                    'username' => $user->username,
+                    'nama' => $user->nama
+                ]);
 
-        Mapel::create($request->all());
-        return redirect()->route('mapel.index')->with('sukses', 'Data Berhasil Ditambahkan');
+            } else {
+                return redirect()->route('auth.index')->with('gagal', 'Password Anda Salah');
+            }
+        } else {
+            return redirect()->route('auth.index')->with('gagal', 'Username Anda Tidak Ditemukan');
+        }
     }
 
     /**
@@ -71,10 +85,7 @@ class MapelController extends Controller
      */
     public function edit($id)
     {
-        $judul = "Data Mata Pelajaran";
-        $mapel = Mapel::findOrFail($id);
-
-        return view('mapel.edit', compact('judul','mapel'));
+        //
     }
 
     /**
@@ -86,12 +97,7 @@ class MapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
-            'nama' => ['required', "unique:mapels,nama,$id,id", 'max:20']
-        ]);
-
-        Mapel::where('id',$id)->update($request->except('_token', '_method'));
-        return redirect()->route('mapel.index')->with('info', 'Data Berhasil Diubah');
+        //
     }
 
     /**
@@ -102,7 +108,6 @@ class MapelController extends Controller
      */
     public function destroy($id)
     {
-        Mapel::findOrFail($id)->delete();
-        return redirect()->route('mapel.index')->with('warning', 'Data Berhasil Terhapus');
+        //
     }
 }

@@ -18,9 +18,6 @@ class RoleAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        session(['user_id' => "6"]);
-        session(['role_access_id' => "1"]);
-
         if(Session::get('user_id')){
             $url = $request->segment(1);
             $url2 = "";

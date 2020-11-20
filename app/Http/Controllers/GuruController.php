@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +19,7 @@ class GuruController extends Controller
      */
     public function index()
     {
+        session()->put('key', 'value');
         $judul = 'Data Guru';
         $guru = Guru::all();
 

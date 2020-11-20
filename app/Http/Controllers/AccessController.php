@@ -9,6 +9,10 @@ use App\Models\Menu;
 
 class AccessController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('roleaccess');
+    }
     /**
      * Display a listing of the resource.
      *
