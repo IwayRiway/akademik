@@ -44,18 +44,19 @@
                         </div>
                      </div>
 
-                     <div class="hilang" id="pilih_user">
+                     <div class="{{ (old("tipe_user")!=1?"":"hilang") }} {{ (old("tipe_user")==0?"hilang":"") }}" id="pilih_user">
                         <div class="form-group row" >
                            <label for="user_id" class="col-sm-3 col-form-label text-right">Pilih User <code>*</code> : </label>
                            <div class="col-sm-6">
                               <select name="user_id" id="user_id" class="form-control" style="width: 100%">
                                  <option></option>
                                </select>
+                               @error('user_id') <div class="text-danger mt-1">{{$errors->first('user_id')}}</div> @enderror
                            </div>
                         </div>
                      </div>
 
-                     <div id="ket" class="hilang">
+                     <div id="ket" class="{{$errors->all()?'':'hilang'}}">
                         <div class="form-group row">
                            <label for="nama" class="col-sm-3 col-form-label text-right">Nama User <code>*</code> : </label>
                            <div class="col-sm-6">

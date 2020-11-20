@@ -44,7 +44,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'tipe_user' => ['required'],
+            'role' => ['required'],
+            'user_id' => ['required_if:tipe_user,==,2', 'required_if:tipe_user,==,3'],
+            'nama' => ['required'],
+            'username' => ['required', 'unique:user'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:6']
+        ]);
+
+        $data = $request->except('_token', 'password','role');
+        $data['hak_akses'] = $request->role;
+        $data['password'] = bcrypt($request->password);
+        User::create($data);
+        
+        return redirect()->route('user.index')->with('sukses', 'User Berhasil Ditambahakan');
     }
 
     /**
@@ -66,7 +81,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $judul = "Edit User";
+        $role = RoleAccess::all();
+        $user = User::findOrFail($id);
+
+        return view('user.edit', compact('judul','role', 'user'));
     }
 
     /**
@@ -78,7 +97,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'role' => ['required'],
+            'username' => ['required', "unique:user,username,$id,id_user"],
+            'email' => ['required', 'email'],
+        ]);
+
+        $data = $request->except('_token', 'password','role', '_method');
+        $data['hak_akses'] = $request->role;
+        if ($request->password!="" or $request->password!=null) {
+            $data['password'] = bcrypt($request->password);
+        }
+        User::where('id_user', $id)->update($data);
+        
+        return redirect()->route('user.index')->with('info', 'User Berhasil Diubah');
     }
 
     /**
@@ -89,7 +121,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        
+        return redirect()->route('user.index')->with('warning', 'User Berhasil Terhapus');
     }
 
     public function siswa(Request $request)

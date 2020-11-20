@@ -22,7 +22,9 @@ class User extends Model
         'username',
         'password',
         'hak_akses',
-        'email'
+        'email',
+        'tipe_user',
+        'user_id'
     ];
 
     /**
@@ -40,6 +42,8 @@ class User extends Model
      * @var array
      */
     protected $table = 'user';
+    public $timestamps = false;
+    protected $primaryKey = 'id_user';
 
     public function role()
     {

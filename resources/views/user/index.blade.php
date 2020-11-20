@@ -49,8 +49,8 @@
                                          }
                                      @endphp</td>
                                      <td>
-                                         <a href="{{url("user/$db->id/edit")}}" class="btn btn-icon btn-sm btn-success mr-1" title="Edit" style="min-width:30px"><i class="fas fa-edit"></i></a>
-                                         <a href="{{url("user/destroy/$db->id")}}" class="btn btn-icon btn-sm btn-danger mr-1 tombol-hapus" title="Delete" style="min-width:30px"><i class="fas fa-trash"></i></a>
+                                         <a href="{{route("user.edit", $db->id_user)}}" class="btn btn-icon btn-sm btn-success mr-1" title="Edit" style="min-width:30px"><i class="fas fa-edit"></i></a>
+                                         <a href="{{route("user.destroy", $db->id_user)}}" class="btn btn-icon btn-sm btn-danger mr-1 tombol-hapus" title="Delete" style="min-width:30px"><i class="fas fa-trash"></i></a>
                                      </td>
                                  </tr>
                               @endforeach
