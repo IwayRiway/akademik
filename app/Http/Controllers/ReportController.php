@@ -12,6 +12,11 @@ use App\Models\Report;
 
 class ReportController extends Controller
 {
+    // public function __construct()
+    // {
+    //     echo is_login();
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +25,6 @@ class ReportController extends Controller
     public function index()
     {
         $judul = 'Report Siswa';
-        session(['user_id' => 3]);
-
         $mapel = JadwalGuru::with(['mapel' => function($query){
                                 $query->orderBy('nama', 'desc');
                             }])->where('guru_id', Session::get('user_id'))

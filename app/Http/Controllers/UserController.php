@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        echo is_login();
+        $this->middleware('roleaccess');
     }
     /**
      * Display a listing of the resource.
