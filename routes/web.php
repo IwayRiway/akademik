@@ -60,3 +60,7 @@ Route::get('user/destroy/{id}', 'UserController@destroy')->name('user.destroy');
 Route::post('user/siswa', 'UserController@siswa')->name('user.siswa');
 Route::post('user/guru', 'UserController@guru')->name('user.guru');
 Route::post('user/user', 'UserController@user')->name('user.user');
+
+Route::get('/helper-user', function () {
+    return AuthHelp::get_username(321);
+});

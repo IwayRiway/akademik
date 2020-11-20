@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        echo is_login();
+    }
     /**
      * Display a listing of the resource.
      *
