@@ -48,7 +48,7 @@ class RoleAccess
             }
 
         } else {
-            return redirect()->route('auth.index')->with('info', 'Session Anda Sudah Berakhir. Silahkan Login Kembali');
+            return redirect()->route('login.index')->with('info', 'Session Anda Sudah Berakhir. Silahkan Login Kembali');
         }
 
         return $next($request);

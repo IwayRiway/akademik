@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::resource('login', 'LoginController');
+Route::resource('dashboard', 'DashboardController');
 
 Route::resource('test', 'TestController');
 

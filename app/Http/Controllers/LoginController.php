@@ -58,6 +58,8 @@ class LoginController extends Controller
                     'nama' => $user->nama
                 ]);
 
+                return redirect()->route('dashboard.index');
+
             } else {
                 return redirect()->route('auth.index')->with('gagal', 'Password Anda Salah');
             }
