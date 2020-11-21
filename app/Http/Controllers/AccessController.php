@@ -11,7 +11,7 @@ class AccessController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('roleaccess');
+        $this->middleware('roleaccess')->except(['show']);
     }
     /**
      * Display a listing of the resource.

@@ -61,10 +61,10 @@ class LoginController extends Controller
                 return redirect()->route('dashboard.index');
 
             } else {
-                return redirect()->route('auth.index')->with('gagal', 'Password Anda Salah');
+                return redirect()->route('login.index')->with('gagal', 'Password Anda Salah');
             }
         } else {
-            return redirect()->route('auth.index')->with('gagal', 'Username Anda Tidak Ditemukan');
+            return redirect()->route('login.index')->with('gagal', 'Username Anda Tidak Ditemukan');
         }
     }
 
@@ -108,8 +108,14 @@ class LoginController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        
+    }
+
+    public function signout()
+    {
+        session()->flush();
+        return redirect()->route('login.index');
     }
 }

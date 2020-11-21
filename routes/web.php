@@ -18,7 +18,9 @@ Route::get('/', function () {
     return redirect()->route('login.index');
 });
 
+Route::get('login/signout', 'LoginController@signout')->name('login.signout');
 Route::resource('login', 'LoginController');
+
 Route::resource('dashboard', 'DashboardController');
 
 Route::resource('test', 'TestController');

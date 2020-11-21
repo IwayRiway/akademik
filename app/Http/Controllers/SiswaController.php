@@ -9,7 +9,7 @@ class SiswaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('roleaccess');
+        $this->middleware('roleaccess')->except(['show']);
     }
     
     public function index()

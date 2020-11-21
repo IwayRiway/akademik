@@ -71,11 +71,12 @@
           dataType : "json",
           data    : {_token:"{{csrf_token()}}",_method:"PUT", mapel_id:mapel_id, guru_id:guru_id},
           success : function(data) {
+            console.log(data.guru.nama);
             var html = `
                         <a href="#mymodal" data-remote="{{url('jadwal-pelajaran/detail')}}/`+update_id+`" data-toggle="modal" data-target="#mymodal" data-title="Edit Jadwal : Senin, `+data.jam.jam_awal+` - `+data.jam.jam_akhir+`" data-jadwal_id="`+data.jadwal_id+`" data-id="`+data.hari+``+data.jam_pelajaran_id+`">
-                          `+data.mapel.nama??""+`
+                          `+data.mapel.nama+`
                           <hr style="margin: 0px; border: 1px solid black;">
-                          `+data.guru.nama??""+`
+                          `+data.guru.nama+`
                         </a>`;
             $('#'+id).html(html);
             $('#mymodal').modal('hide');

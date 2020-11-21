@@ -68,7 +68,7 @@
               <h4>Total Mata Pelajaran</h4>
             </div>
             <div class="card-body">
-              {{$mapel}}
+              {{$mapelnya}}
             </div>
           </div>
         </div>

@@ -16,8 +16,10 @@ class DashboardController extends Controller
         $judul = "Dashboard";
         $guru = count(Guru::all());
         $siswa = count(Siswa::all());
-        $mapel = count(Mapel::all());
+        $mapelnya = count(Mapel::all());
         $kelas = Jadwal::all();
+
+        // dd($mapel);
 
         $jadwal_skrg = JadwalGuru::with('mapel', 'jam')
                                     ->where('hari', date('N', strtotime(date('Y-m-17'))))
@@ -78,6 +80,6 @@ class DashboardController extends Controller
            }
         }
 
-        return view('dashboard.index', compact('judul', 'guru', 'siswa', 'mapel', 'kelas', 'skrg', 'bsk'));
+        return view('dashboard.index', compact('judul', 'guru', 'siswa', 'mapelnya', 'kelas', 'skrg', 'bsk'));
     }
 }

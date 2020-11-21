@@ -13,7 +13,7 @@ class JadwalPelajaranController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('roleaccess');
+        $this->middleware('roleaccess')->except(['store_detail', 'detail', 'update']);
     }
     /**
      * Display a listing of the resource.
