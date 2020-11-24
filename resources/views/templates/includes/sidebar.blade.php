@@ -15,7 +15,7 @@
 
        <li class="{{$side=='siswa'?'active':''}}"><a class="nav-link" href="{{route('siswa.index')}}"><i class="fas fa-graduation-cap"></i><span>Data Siswa</span></a></li> 
 
-       <li class="{{$side=='dashboard'?'mapel':''}}"><a class="nav-link" href="{{route('mapel.index')}}"><i class="fas fa-book"></i><span>Data Mata Pelajaran</span></a></li>
+       <li class="{{$side=='mapel'?'active':''}}"><a class="nav-link" href="{{route('mapel.index')}}"><i class="fas fa-book"></i><span>Data Mata Pelajaran</span></a></li>
 
        <li class="{{$side=='guru'?'active':''}}"><a class="nav-link" href="{{route('guru.index')}}"><i class="fas fa-user-graduate"></i><span>Data Guru</span></a></li> 
 
