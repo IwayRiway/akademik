@@ -14,7 +14,7 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('roleaccess');
+        $this->middleware('roleaccess')->except('report', 'kelas', 'siswa');
     }
     // public function __construct()
     // {

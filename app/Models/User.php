@@ -49,4 +49,9 @@ class User extends Model
     {
         return $this->belongsTo(RoleAccess::class, 'hak_akses', 'id');
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'user_id', 'id');
+    }
 }

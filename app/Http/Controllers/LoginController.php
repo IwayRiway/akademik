@@ -37,7 +37,6 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        session(['test'=>'123']);
         $username = $request->username;
         if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
             $user = User::with('role')->where('email', $username)->first();
