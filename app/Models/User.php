@@ -54,4 +54,9 @@ class User extends Model
     {
         return $this->belongsTo(Siswa::class, 'user_id', 'id');
     }
+
+    public function kelas()
+    {
+        return $this->belongsTo(JadwalSiswa::class, 'user_id', 'siswa_id');
+    }
 }

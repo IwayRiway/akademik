@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('test', 'API\LoginController@test');
 Route::post('login', 'API\LoginController@login');
+
+Route::get('jadwal/{jadwal_kelas}', 'API\JadwalController@jadwal');
+Route::get('siswa/{jadwal_kelas}', 'API\JadwalController@siswa');
