@@ -56,10 +56,10 @@ class JadwalController extends Controller
         foreach ($jam as $key => $db) {
             $dataku = [
                 'jam' => $db->jam_awal.' - '.$db->jam_akhir,
-                'id' => $jadwal_temp[$db->id]['id'],
-                'mapel' => $jadwal_temp[$db->id]['mapel'],
-                'guru' => $jadwal_temp[$db->id]['guru'],
-                'poto' => $jadwal_temp[$db->id]['poto'],
+                'id' => $jadwal_temp[$db->id]['id']??$db->id,
+                'mapel' => $jadwal_temp[$db->id]['mapel']??"",
+                'guru' => $jadwal_temp[$db->id]['guru']??"",
+                'poto' => $jadwal_temp[$db->id]['poto']??"",
             ];
 
             array_push($data['result'], $dataku);
