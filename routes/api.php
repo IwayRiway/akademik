@@ -23,3 +23,4 @@ Route::post('login', 'API\LoginController@login');
 
 Route::get('jadwal/{jadwal_kelas}', 'API\JadwalController@jadwal');
 Route::get('siswa/{jadwal_kelas}', 'API\JadwalController@siswa');
+Route::get('report/{siswa_id}', 'API\ReportController@report');
