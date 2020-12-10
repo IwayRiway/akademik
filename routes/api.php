@@ -18,9 +18,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('test', 'API\LoginController@test');
+Route::put('user/{id_user}', 'API\UserController@update');
+
+Route::post('test', 'API\LoginController@test');
 Route::post('login', 'API\LoginController@login');
 
 Route::get('jadwal/{jadwal_kelas}', 'API\JadwalController@jadwal');
 Route::get('siswa/{jadwal_kelas}', 'API\JadwalController@siswa');
-Route::get('report/{siswa_id}', 'API\ReportController@report');
+
+Route::get('report/uh/{siswa_id}', 'API\ReportController@reportUH');
+Route::get('report/uts/{siswa_id}', 'API\ReportController@reportUTS');
+Route::get('report/uas/{siswa_id}', 'API\ReportController@reportUAS');
+
+Route::get('tagihan/{siswa_id}', 'API\TagihanController@tagihan');
+Route::get('riwayat/{siswa_id}', 'API\TagihanController@riwayat');
+
+

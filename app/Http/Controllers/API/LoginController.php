@@ -9,12 +9,12 @@ use App\Models\User;
 class LoginController extends Controller
 {
 
-    public function test()
+    public function test(Request $request)
     {
         $data['code'] = date('N');
         $data['status'] = 'Username Tidak Ditemukan';
 
-        return $data;
+        return $request->all();
     }
     public function login(Request $request)
     {

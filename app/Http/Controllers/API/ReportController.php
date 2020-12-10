@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function report($siswa_id)
+    public function reportUH($siswa_id)
     {
         $reportUH = DB::select("SELECT a.nilai, 
                                         a.tanggal_ujian, 
@@ -20,6 +20,15 @@ class ReportController extends Controller
                                         AND a.jenis = 1 
                                 ORDER  BY a.tanggal_ujian DESC ");
 
+        $data['code'] = 200;
+        $data['status'] = "success";
+        $data['result'] = $reportUH;
+        
+        return $data;
+    }
+
+    public function reportUTS($siswa_id)
+    {
         $reportUTS = DB::select("SELECT a.nilai, 
                                             a.tanggal_ujian, 
                                             b.nama 
@@ -29,6 +38,16 @@ class ReportController extends Controller
                                     WHERE  a.siswa_id = '$siswa_id' 
                                             AND a.jenis = 2 
                                     ORDER  BY a.tanggal_ujian DESC ");
+
+        $data['code'] = 200;
+        $data['status'] = "success";
+        $data['result'] = $reportUTS;
+        
+        return $data;
+    }
+
+    public function reportUAS($siswa_id)
+    {
 
         $reportUAS = DB::select("SELECT a.nilai, 
                                             a.tanggal_ujian, 
@@ -42,9 +61,7 @@ class ReportController extends Controller
 
         $data['code'] = 200;
         $data['status'] = "success";
-        $data['result']['UH'] = $reportUH;
-        $data['result']['UTS'] = $reportUTS;
-        $data['result']['UAS'] = $reportUAS;
+        $data['result'] = $reportUAS;
         
         return $data;
     }
